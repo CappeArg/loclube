@@ -4,7 +4,6 @@
 import { supabase } from '@/lib/supabaseClient';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 
 async function deleteMember(id: number) {
   'use server';
