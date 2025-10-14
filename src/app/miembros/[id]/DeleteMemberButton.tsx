@@ -1,24 +1,7 @@
 // src/app/miembros/[id]/DeleteMemberButton.tsx
 'use client';
 
-import { supabase } from '@/lib/supabaseClient';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-async function deleteMember(id: number) {
-  'use server';
-
-  const { error } = await supabase.from('miembros').delete().eq('id_miembro', id);
-
-  if (error) {
-    console.error('Error deleting member:', error);
-    // Handle error
-    return;
-  }
-
-  revalidatePath('/miembros');
-  redirect('/miembros');
-}
+import { deleteMember } from '../actions';
 
 export default function DeleteMemberButton({ memberId }: { memberId: number }) {
   const handleDelete = async () => {

@@ -8,7 +8,7 @@ async function getMember(id: string): Promise<Tables<'miembros'> | null> {
   const { data, error } = await supabase
     .from('miembros')
     .select('*')
-    .eq('id_miembro', id)
+    .eq('id_miembro', parseInt(id, 10))
     .single();
 
   if (error) {
@@ -41,7 +41,7 @@ export default async function EditMemberPage({ params }: { params: { id: string 
     const { error } = await supabase
       .from('miembros')
       .update(updatedMember)
-      .eq('id_miembro', params.id);
+      .eq('id_miembro', parseInt(params.id, 10));
 
     if (error) {
       console.error('Error updating member:', error);
