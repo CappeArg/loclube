@@ -1,24 +1,7 @@
 // src/app/actividades/[id]/DeleteActividadButton.tsx
 'use client';
 
-import { supabase } from '@/lib/supabaseClient';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-async function deleteActividad(id: number) {
-  'use server';
-
-  const { error } = await supabase.from('actividades').delete().eq('id_actividad', id);
-
-  if (error) {
-    console.error('Error deleting actividad:', error);
-    // Handle error
-    return;
-  }
-
-  revalidatePath('/actividades');
-  redirect('/actividades');
-}
+import { deleteActividad } from '../actions';
 
 export default function DeleteActividadButton({ actividadId }: { actividadId: number }) {
   const handleDelete = async () => {

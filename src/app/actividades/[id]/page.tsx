@@ -8,7 +8,7 @@ async function getActividad(id: string): Promise<Tables<'actividades'> | null> {
   const { data, error } = await supabase
     .from('actividades')
     .select('*')
-    .eq('id_actividad', id)
+    .eq('id_actividad', Number(id))
     .single();
 
   if (error) {

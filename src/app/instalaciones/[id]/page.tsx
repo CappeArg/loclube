@@ -8,7 +8,7 @@ async function getInstalacion(id: string): Promise<Tables<'instalaciones'> | nul
   const { data, error } = await supabase
     .from('instalaciones')
     .select('*')
-    .eq('id_instalacion', id)
+    .eq('id_instalacion', Number(id))
     .single();
 
   if (error) {
