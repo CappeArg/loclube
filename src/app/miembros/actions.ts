@@ -1,4 +1,4 @@
-// src/app/actividades/actions.ts
+// src/app/miembros/actions.ts
 'use server';
 
 import { createServerClient } from '@supabase/ssr';
@@ -20,18 +20,18 @@ function createSupabaseServerClient() {
   );
 }
 
-export async function deleteActividad(id: number) {
+export async function deleteMiembro(id: number) {
   const supabase = createSupabaseServerClient();
   const { error } = await supabase
-    .from('actividades')
+    .from('miembros')
     .update({ deleted_at: new Date().toISOString() })
-    .eq('id_actividad', id);
+    .eq('id_miembro', id);
 
   if (error) {
-    console.error('Error deleting actividad:', error);
+    console.error('Error deleting miembro:', error);
     return { success: false, error: error.message };
   }
 
-  revalidatePath('/actividades');
+  revalidatePath('/miembros');
   return { success: true };
 }

@@ -1,10 +1,10 @@
-// src/app/tipos-de-membresia/page.tsx
-import TiposDeMembresiaClient from './client-page';
+// src/app/miembros/page.tsx
+import MiembrosClient from './client-page';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Tables } from '../../../supabase';
 
-async function getTiposDeMembresia(): Promise<Tables<'tipos_de_membresia'>[]> {
+async function getMiembros(): Promise<Tables<'miembros'>[]> {
   const cookieStore = cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,18 +19,18 @@ async function getTiposDeMembresia(): Promise<Tables<'tipos_de_membresia'>[]> {
   );
 
   const { data, error } = await supabase
-    .from('tipos_de_membresia')
+    .from('miembros')
     .select('*')
-    .is('deleted_at', null); // <-- Filtro para borrado lógico
+    .is('deleted_at', null);
 
   if (error) {
-    console.error('Error fetching tipos de membresia:', error);
+    console.error('Error fetching miembros:', error);
     return [];
   }
   return data;
 }
 
-export default async function TiposDeMembresiaPage() {
-  const tiposDeMembresia = await getTiposDeMembresia();
-  return <TiposDeMembresiaClient tiposDeMembresia={tiposDeMembresia} />;
+export default async function MiembrosPage() {
+  const miembros = await getMiembros();
+  return <MiembrosClient miembros={miembros} />;
 }
