@@ -8,7 +8,7 @@ async function getTipoDeMembresia(id: string): Promise<Tables<'tipos_de_membresi
   const { data, error } = await supabase
     .from('tipos_de_membresia')
     .select('*')
-    .eq('id_tipo_membresia', id)
+    .eq('id_tipo_membresia', parseInt(id, 10))
     .single();
 
   if (error) {

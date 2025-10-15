@@ -8,7 +8,7 @@ async function getTipoDeMembresia(id: string): Promise<Tables<'tipos_de_membresi
   const { data, error } = await supabase
     .from('tipos_de_membresia')
     .select('*')
-    .eq('id_tipo_membresia', id)
+    .eq('id_tipo_membresia', parseInt(id, 10))
     .single();
 
   if (error) {
@@ -38,7 +38,7 @@ export default async function EditTipoDeMembresiaPage({ params }: { params: { id
     const { error } = await supabase
       .from('tipos_de_membresia')
       .update(updatedTipoDeMembresia)
-      .eq('id_tipo_membresia', params.id);
+      .eq('id_tipo_membresia', parseInt(params.id, 10));
 
     if (error) {
       console.error('Error updating tipo de membresia:', error);
