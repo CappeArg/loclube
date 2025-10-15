@@ -1,20 +1,51 @@
+"use client";
+
 import { supabase } from "@/lib/supabaseClient";
 import { Tables } from "../../supabase";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const { data: miembros } = await supabase.from('miembros').select();
+export default function Home() {
+  const { session } = useAuth();
+  const router = useRouter();
+  const [miembros, setMiembros] = useState<Tables<'miembros'>[]>([]);
+
+  useEffect(() => {
+    if (!session) {
+      router.push("/login");
+    } else {
+      const getMiembros = async () => {
+        const { data } = await supabase.from('miembros').select();
+        if (data) {
+          setMiembros(data);
+        }
+      };
+      getMiembros();
+    }
+  }, [session, router]);
+
+  if (!session) {
+    return null; // O un spinner de carga
+  }
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1 className="text-4xl font-bold">Miembros del Club</h1>
         <ul className="list-disc pl-5">
-          {miembros?.map((miembro: Tables<'miembros'>) => (
+          {miembros?.map((miembro) => (
             <li key={miembro.id_miembro} className="text-lg">
               {miembro.nombre} {miembro.apellido}
             </li>
           ))}
         </ul>
+        <button
+          onClick={() => supabase.auth.signOut()}
+          className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700"
+        >
+          Cerrar sesión
+        </button>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
