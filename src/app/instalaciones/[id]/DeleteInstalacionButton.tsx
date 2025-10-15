@@ -1,24 +1,7 @@
 // src/app/instalaciones/[id]/DeleteInstalacionButton.tsx
 'use client';
 
-import { supabase } from '@/lib/supabaseClient';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
-async function deleteInstalacion(id: number) {
-  'use server';
-
-  const { error } = await supabase.from('instalaciones').delete().eq('id_instalacion', id);
-
-  if (error) {
-    console.error('Error deleting instalacion:', error);
-    // Handle error
-    return;
-  }
-
-  revalidatePath('/instalaciones');
-  redirect('/instalaciones');
-}
+import { deleteInstalacion } from '../actions';
 
 export default function DeleteInstalacionButton({ instalacionId }: { instalacionId: number }) {
   const handleDelete = async () => {

@@ -8,7 +8,7 @@ async function getInstalacion(id: string): Promise<Tables<'instalaciones'> | nul
   const { data, error } = await supabase
     .from('instalaciones')
     .select('*')
-    .eq('id_instalacion', id)
+    .eq('id_instalacion', Number(id))
     .single();
 
   if (error) {
@@ -38,7 +38,7 @@ export default async function EditInstalacionPage({ params }: { params: { id: st
     const { error } = await supabase
       .from('instalaciones')
       .update(updatedInstalacion)
-      .eq('id_instalacion', params.id);
+      .eq('id_instalacion', Number(params.id));
 
     if (error) {
       console.error('Error updating instalacion:', error);

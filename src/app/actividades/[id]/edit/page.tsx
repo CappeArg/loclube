@@ -8,7 +8,7 @@ async function getActividad(id: string): Promise<Tables<'actividades'> | null> {
   const { data, error } = await supabase
     .from('actividades')
     .select('*')
-    .eq('id_actividad', id)
+    .eq('id_actividad', Number(id))
     .single();
 
   if (error) {
@@ -40,7 +40,7 @@ export default async function EditActividadPage({ params }: { params: { id: stri
     const { error } = await supabase
       .from('actividades')
       .update(updatedActividad)
-      .eq('id_actividad', params.id);
+      .eq('id_actividad', Number(params.id));
 
     if (error) {
       console.error('Error updatingividad:', error);
